@@ -18,12 +18,12 @@ import * as filters from '@libp2p/websockets/filters'
 
 const App = async () => {
   const libp2p = await createLibp2p({
-    // addresses: {
-    //   listen: [
-    //     // 👇 Listen for webRTC connection
-    //     '/webrtc',
-    //   ],
-    // },
+    addresses: {
+      listen: [
+        // 👇 Listen for webRTC connection
+        '/webrtc',
+      ],
+    },
     transports: [
       webSockets({
         // Allow all WebSocket connections inclusing without TLS
@@ -31,10 +31,10 @@ const App = async () => {
       }),
       webTransport(),
       webRTC(),
-      // // 👇 Required to create circuit relay reservations in order to hole punch browser-to-browser WebRTC connections
-      // circuitRelayTransport({
-      //   discoverRelays: 1,
-      // }),
+      // 👇 Required to create circuit relay reservations in order to hole punch browser-to-browser WebRTC connections
+      circuitRelayTransport({
+        discoverRelays: 1,
+      }),
     ],
     connectionEncryption: [noise()],
     streamMuxers: [yamux()],
@@ -46,13 +46,13 @@ const App = async () => {
       // bootstrap({
       //   list: [''],
       // }),
-      // pubsubPeerDiscovery({
-      //   interval: 10_000,
-      //   topics: [PUBSUB_PEER_DISCOVERY],
-      // }),
+      pubsubPeerDiscovery({
+        interval: 10_000,
+        topics: [PUBSUB_PEER_DISCOVERY],
+      }),
     ],
     services: {
-      // pubsub: gossipsub(),
+      pubsub: gossipsub(),
       identify: identify(),
     },
   })
