@@ -13,7 +13,7 @@ import { enable, disable } from '@libp2p/logger'
 import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery'
 // import { update, getPeerTypes, getAddresses, getPeerDetails } from './utils'
 import { bootstrap } from '@libp2p/bootstrap'
-import { circuitRelayServer } from '@libp2p/circuit-relay-v2'
+import { circuitRelayServer,circuitRelayTransport } from '@libp2p/circuit-relay-v2'
 import { PUBSUB_PEER_DISCOVERY } from './constants.js'
 
 async function main() {
@@ -21,13 +21,18 @@ async function main() {
   const libp2p = await createLibp2p({
     addresses: {
       listen: [
+        // '/ip4/0.0.0.0/tcp/443/wss',
         '/ip4/0.0.0.0/tcp/9001/ws',
         '/ip4/0.0.0.0/tcp/9002',
       ],
     },
     transports: [
       webSockets(),
+      webRTC(),
       tcp(),
+      circuitRelayTransport({
+        discoverRelays: 1,
+      }),
     ],
     connectionEncryption: [noise()],
     streamMuxers: [yamux()],
