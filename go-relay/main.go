@@ -13,7 +13,7 @@ import (
 )
 
 // Topic used to broadcast browser WebRTC addresses
-const PubSubDiscoveryTopic string = "browser-peer-discovery"
+const PubSubDiscoveryTopic string = "orbitdb"
 
 func main() {
 

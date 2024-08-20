@@ -20,6 +20,9 @@ async function main() {
   // enable('*')
   const libp2p = await createLibp2p({
     addresses: {
+      announce: [
+          '/dns4/relay.linsoap/tcp/443/wss',
+      ],
       listen: [
         // '/ip4/0.0.0.0/tcp/443/wss',
         '/ip4/0.0.0.0/tcp/9001/ws',
@@ -29,6 +32,7 @@ async function main() {
     transports: [
       webSockets(),
       webRTC(),
+      
       tcp(),
       circuitRelayTransport({
         discoverRelays: 1,
