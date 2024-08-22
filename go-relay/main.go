@@ -9,6 +9,7 @@ import (
 	relayv2 "github.com/libp2p/go-libp2p/p2p/protocol/circuitv2/relay"
 	quicTransport "github.com/libp2p/go-libp2p/p2p/transport/quic"
 	webrtc "github.com/libp2p/go-libp2p/p2p/transport/webrtc"
+	websocket "github.com/libp2p/go-libp2p/p2p/transport/websocket"
 	webtransport "github.com/libp2p/go-libp2p/p2p/transport/webtransport"
 )
 
@@ -32,10 +33,15 @@ func main() {
 		libp2p.Transport(quicTransport.NewTransport),
 		libp2p.Transport(webtransport.New),
 		libp2p.Transport(webrtc.New),
+		libp2p.Transport(websocket.New),
+		libp2p.ListenAddrStrings("/ip4/0.0.0.0/tcp/9091/ws"),
 		libp2p.ListenAddrStrings("/ip4/0.0.0.0/udp/9095/quic-v1", "/ip4/0.0.0.0/udp/9095/quic-v1/webtransport"),
 		// 👇 webrtc-direct cannot listen on the same port as QUIC or WebTransport
 		libp2p.ListenAddrStrings("/ip4/0.0.0.0/udp/9096/webrtc-direct"),
 		// libp2p.ListenAddrStrings("/ip6/::/udp/9095/quic-v1", "/ip6/::/udp/9095/quic-v1/webtransport"),
+		// libp2p.EnableNATService(),
+		// libp2p.AutoNATServiceRateLimit(0, 3, time.Minute),
+		// libp2p.EnableHolePunching(),
 	)
 
 	// libp2p.New constructs a new libp2p Host. Other options can be added
